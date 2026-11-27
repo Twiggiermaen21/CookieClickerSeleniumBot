@@ -32,15 +32,16 @@ public class OverlaysComponent extends BaseComponent {
     }
     public void closeBottomCookieBanner() {
         clickIfVisible(GOT_IT_BTN);
+        if (!driver.findElements(GOOGLE_BUBBLE_OPEN).isEmpty()) {
+            clickIfVisible(GOOGLE_BUBBLE_CLOSE);
+            System.out.println("yes");
+        }
     }
 
     public void closeNotificationsAndPopups() {
         if (driver.findElements(NOTES_ITEMS).size() >= 2) {
             clickIfVisible(CLOSE_NOTES_BTN);
         }
-        if (!driver.findElements(GOOGLE_BUBBLE_OPEN).isEmpty()) {
-            clickIfVisible(GOOGLE_BUBBLE_CLOSE);
-            System.out.println("yes");
-        }
+
     }
 }
