@@ -2,7 +2,6 @@ package cookieclicker.components.store;
 
 import cookieclicker.components.BaseComponent;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +21,6 @@ public class ProductsComponent extends BaseComponent {
         this.gameJs = gameJs;
     }
 
-    @Step("Buy most cost-effective available products")
     public void buyBestAvailable() {
         while (true) {
             List<WebElement> enabledProducts = driver.findElements(ENABLED_PRODUCTS);

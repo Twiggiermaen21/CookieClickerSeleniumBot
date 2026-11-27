@@ -28,7 +28,7 @@ class CookieClickerTest extends BaseTest {
 
         try {
 //            runAutomatedGameplayLoop(game, Duration.ofHours(1));
-            runAutomatedGameplayLoop(game, Duration.ofMinutes(1));
+            runAutomatedGameplayLoop(game, Duration.ofMinutes(10));
         } finally {
             stats.reportStats("KONIEC");
         }

@@ -2,7 +2,6 @@ package cookieclicker.components.store;
 
 import cookieclicker.components.BaseComponent;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +18,6 @@ public class UpgradesComponent extends BaseComponent {
         super(driver);
     }
 
-    @Step("Buy all available upgrades")
     public void buyAllAvailable() {
         while (true) {
             List<WebElement> enabled = driver.findElements(ENABLED_UPGRADES);
