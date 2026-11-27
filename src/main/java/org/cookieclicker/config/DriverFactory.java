@@ -29,6 +29,8 @@ public class DriverFactory {
         options.addArguments("--user-data-dir=C:\\chrome-cookie-profile");
         ChromeDriverService service = new ChromeDriverService.Builder()
                 .usingDriverExecutable(new File("chromedriver.exe"))
+                .withLogFile(new File("chromedriver.log"))
+                .withVerbose(true)
                 .build();
 
         return new ChromeDriver(service, options);
