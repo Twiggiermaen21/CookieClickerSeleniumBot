@@ -18,12 +18,14 @@ class CookieClickerTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Play Cookie Clicker for 1 hour and purchase upgrades")
     @Description("Opens Cookie Clicker in Polish, checks initial stats, and runs a 1-hour loop clicking the big cookie and buying upgrades/products every 10 seconds.")
-    public void playCookieClicker()  {
+    public void playCookieClicker() throws InterruptedException {
         GamePage game = new GamePage(driver);
         StatsPage stats = new StatsPage(driver);
 
         game.open();
         game.startGameInPolish();
+
+        Thread.sleep(30000);
         stats.reportStats("START");
 
         try {
