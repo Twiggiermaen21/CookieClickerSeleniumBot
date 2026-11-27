@@ -37,7 +37,9 @@ public class GamePage {
 
     @Step("Open Cookie Clicker game page")
     public void open() {
-        driver.get(URL);
+        if (!driver.getCurrentUrl().contains("cookieclicker")) {
+            driver.get(URL);
+        }
     }
 
     @Step("Start game in Polish language")

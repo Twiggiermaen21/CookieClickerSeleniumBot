@@ -1,32 +1,28 @@
 services:
   chrome:
-    image: selenium/standalone-chrome:latest
+    image: lscr.io/linuxserver/chromium:latest
     container_name: selenium-chrome
-    shm_size: "2gb"
+    shm_size: 512mb
     ports:
-      - "4444:4444" # Panel Selenium Grid (http://localhost:4444/ui)
-      - "7900:7900" # Podgląd na żywo noVNC (http://localhost:7900)
+      - "3000:3000" # Podgląd na żywo w przeglądarce (KasmVNC)
     environment:
-      - SE_VNC_NO_PASSWORD=1
-      - SE_NODE_MAX_SESSIONS=1
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+      - CHROME_CLI=--remote-debugging-port=9222 --remote-debugging-address=0.0.0.0 https://orteil.dashnet.org/cookieclicker/
     volumes:
-      - ./chrome-profile:/home/seluser/chrome-profile
+      - chrome_profile:/config
+    restart: unless-stopped
 
   bot:
-    build: .
+    build: https://github.com/Twiggiermaen21/CookieClickerSeleniumBot.git
     container_name: cookie-clicker-bot
     depends_on:
-      chrome:
-        condition: service_healthy
+      - chrome
     environment:
-      - SELENIUM_REMOTE_URL=http://chrome:4444
+      - SELENIUM_DEBUGGER_ADDRESS=chrome:9222
     volumes:
-      - ./target/allure-results:/app/target/allure-results
+      - allure_results:/app/target/allure-results
     restart: unless-stopped
 
   allure:
@@ -38,5 +34,9 @@ services:
       - CHECK_RESULTS_EVERY_SECONDS=10
       - KEEP_HISTORY=1
     volumes:
-      - ./target/allure-results:/app/allure-results
+      - allure_results:/app/allure-results
     restart: unless-stopped
+
+volumes:
+  chrome_profile:
+  allure_results:

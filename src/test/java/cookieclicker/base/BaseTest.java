@@ -37,7 +37,7 @@ public abstract class BaseTest {
     @AfterEach
     @Step("Tear down WebDriver session")
     public void teardown() {
-        if (driver != null) {
+        if (driver != null && System.getenv("SELENIUM_DEBUGGER_ADDRESS") == null) {
             driver.quit();
         }
     }
