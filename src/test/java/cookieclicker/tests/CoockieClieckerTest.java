@@ -24,10 +24,13 @@ class CookieClickerTest extends BaseTest {
 
         game.open();
         game.startGameInPolish();
+        stats.reportStats("START");
 
-        stats(stats);
-
-        runAutomatedGameplayLoop(game, Duration.ofHours(1));
+        try {
+            runAutomatedGameplayLoop(game, Duration.ofHours(1));
+        } finally {
+            stats.reportStats("KONIEC");
+        }
     }
 
     @Step("Run automated gameplay loop for {duration}")
@@ -51,9 +54,4 @@ class CookieClickerTest extends BaseTest {
         game.store().buyBestAvailableProducts();
     }
 
-    private void stats(StatsPage stats){
-        stats.openStatsPage();
-        stats.getStatsData();
-        stats.closeStatsPage();
-    }
 }
