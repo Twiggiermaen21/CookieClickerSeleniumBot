@@ -15,8 +15,10 @@ public class DriverFactory {
     public static WebDriver createDriver() throws Exception {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--start-maximized");
+        options.addArguments("--lang=pl-PL");
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-
+        options.setExperimentalOption("useAutomationExtension", false);
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
 
         if (remoteUrl != null && !remoteUrl.isBlank()) {
