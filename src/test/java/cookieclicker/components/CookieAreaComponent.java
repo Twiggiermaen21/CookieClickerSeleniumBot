@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ public class CookieAreaComponent extends BaseComponent {
 
     private static final By BIG_COOKIE = By.id("bigCookie");
     private WebElement bigCookieBtn;
+    private static final By GOLDEN_COOKIE = By.cssSelector("#shimmers .shimmer");
 
     private static final  Pattern cookiesPattern = Pattern.compile("([\\d.,]+(?:\\s+[a-zA-Z]+)?)\\s+ciastk");
     private static final  Pattern perSecondPattern = Pattern.compile("na sekundę:\\s*([\\d.,]+(?:\\s+[a-zA-Z]+)?)");
@@ -55,6 +57,17 @@ public class CookieAreaComponent extends BaseComponent {
         } catch (StaleElementReferenceException e) {
             waitUntilReady();
             bigCookieBtn.click();
+        }
+    }
+
+    public void clickGoldenCookieIfPresent() {
+        List<WebElement> shimmers = driver.findElements(GOLDEN_COOKIE);
+        if (!shimmers.isEmpty()) {
+            try {
+                shimmers.getFirst().click();
+            } catch (Exception ignored) {
+                // Złote ciastko mogło zniknąć ułamek sekundy przed kliknięciem
+            }
         }
     }
 }
