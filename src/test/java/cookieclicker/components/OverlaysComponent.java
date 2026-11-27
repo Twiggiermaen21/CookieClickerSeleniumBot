@@ -14,8 +14,7 @@ public class OverlaysComponent extends BaseComponent {
     private static final By GOT_IT_BTN = By.cssSelector("a.cc_btn_accept_all");
     private static final By NOTES_ITEMS = By.cssSelector("#notes > div:not(.sidenote)");
     private static final By CLOSE_NOTES_BTN = By.cssSelector(".framed.close.sidenote");
-    private static final By GOOGLE_BUBBLE_OPEN = By.id("ft-reg-bubble");
-    private static final By GOOGLE_BUBBLE_CLOSE = By.className("button.ft-reg-bubble-close");
+    private static final By GOOGLE_BUBBLE_CLOSE = By.cssSelector("#ft-reg-bubble:not(.ft-collapsed) button.ft-reg-bubble-close");
 
     public OverlaysComponent(WebDriver driver) {
         super(driver);
@@ -30,18 +29,15 @@ public class OverlaysComponent extends BaseComponent {
             // Baner nie pojawił się (zgoda już zapisana w profilu)
         }
     }
+
     public void closeBottomCookieBanner() {
         clickIfVisible(GOT_IT_BTN);
-        if (!driver.findElements(GOOGLE_BUBBLE_OPEN).isEmpty()) {
-            clickIfVisible(GOOGLE_BUBBLE_CLOSE);
-            System.out.println("yes");
-        }
+        clickIfVisible(GOOGLE_BUBBLE_CLOSE);
     }
 
     public void closeNotificationsAndPopups() {
         if (driver.findElements(NOTES_ITEMS).size() >= 2) {
             clickIfVisible(CLOSE_NOTES_BTN);
         }
-
     }
 }

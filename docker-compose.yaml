@@ -1,0 +1,28 @@
+services:
+  chrome:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium-chrome
+    shm_size: "2gb"
+    ports:
+      - "4444:4444" # Panel Selenium Grid (http://localhost:4444/ui)
+      - "7900:7900" # Podgląd na żywo noVNC (http://localhost:7900)
+    environment:
+      - SE_VNC_NO_PASSWORD=1
+      - SE_NODE_MAX_SESSIONS=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./chrome-profile:/home/seluser/chrome-profile
+
+  bot:
+    build: .
+    container_name: cookie-clicker-bot
+    depends_on:
+      chrome:
+        condition: service_healthy
+    environment:
+      - SELENIUM_REMOTE_URL=http://chrome:4444
+    restart: unless-stopped
